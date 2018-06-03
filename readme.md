@@ -15,7 +15,8 @@ A Nodejs module that allows you to parse connection strings/objects in a consist
 
 ## Documentation
 
-[Docs](https://jdziat.github.io/parse-connection-url/index.html) 
+Follow the link below to go to the full documentation.
+[Documentation](https://jdziat.github.io/parse-connection-url/) 
 
 ## Installation
 
