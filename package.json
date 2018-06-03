@@ -1,6 +1,6 @@
 {
   "name": "parse-connection-url",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A Nodejs module that allows you to parse connection strings/objects in a consistent way. ",
   "main": "index.js",
   "scripts": {
