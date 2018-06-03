@@ -1,0 +1,116 @@
+{
+    "connections": [
+        {
+            "desc": "PlainHttpUrl",
+            "protocol": "http",
+            "conn": "http://localhost",
+            "expectedUrl": "http://localhost",
+            "username": {
+                "valid": "",
+                "invalid": "root"
+            },
+            "password": {
+                "valid": "",
+                "invalid": "root"
+            },
+            "auth":"",
+            "hasAuth": false,
+            "hasUsername": false,
+            "hasPassword": false
+        },
+        {
+            "desc": "PlainHttpObject",
+            "protocol": "http",
+            "conn": {
+                    "secure": false,
+                    "protocol": "http",
+                    "port": "",
+                    "path": "",
+                    "hostname": "localhost"
+            },
+            "expectedUrl": "http://localhost",
+            "username": {
+                "valid": "",
+                "invalid": "root"
+            },
+            "password": {
+                "valid": "",
+                "invalid": "root"
+            },
+            "auth":"",
+            "hasAuth": false,
+            "hasUsername": false,
+            "hasPassword": false
+        },
+        {
+            "desc": "PlainHttpsUrl",
+            "protocol": "https",
+            "conn": "https://admin:root@localhost",
+            "expectedUrl": "https://admin:root@localhost",
+            "username": {
+                "valid": "admin",
+                "invalid": "root"
+            },
+            "password": {
+                "valid": "root",
+                "invalid": "admin"
+            },
+            "auth":"admin:root",
+            "hasAuth": true,
+            "hasUsername": true,
+            "hasPassword": true
+        },
+        {
+            "desc": "PlainHttpsUrl",
+            "protocol": "https",
+            "conn": {
+                    "secure": false,
+                    "protocol": "https",
+                    "port": "",
+                    "path": "",
+                    "hostname": "localhost",
+                    "username": "admin",
+                    "password": "root"
+            },
+            "expectedUrl": "https://admin:root@localhost",
+            "username": {
+                "valid": "admin",
+                "invalid": "root"
+            },
+            "password": {
+                "valid": "root",
+                "invalid": "admin"
+            },
+            "auth":"admin:root",
+            "hasAuth": true,
+            "hasUsername": true,
+            "hasPassword": true
+        },
+        {
+            "desc": "PostgresWithAuth",
+            "protocol": "postgres",
+            "conn": {
+                    "secure": false,
+                    "protocol": "postgres",
+                    "port": 5432,
+                    "path": "/generic_database",
+                    "hostname": "localhost",
+                    "username": "postgres",
+                    "password": "root"
+            },
+            "expectedUrl": "postgres://postgres:root@localhost:5432/generic_database",
+            "username": {
+                "valid": "postgres",
+                "invalid": ""
+            },
+            "password": {
+                "valid": "root",
+                "invalid": "admin"
+            },
+            "auth":"postgres:root",
+            "hasAuth": true,
+            "hasUsername": true,
+            "hasPassword": true
+        }
+    ]
+}
