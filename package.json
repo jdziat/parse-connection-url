@@ -1,7 +1,7 @@
 {
   "name": "parse-connection-url",
   "homepage": "https://github.com/jdziat/parse-connection-url",
-  "author": "Jordan Dziat <jordan@dziat.com> (http://jordandziat.com/)",
+  "author": "",
   "license": "MIT",
   "version": "1.0.3",
   "description": "A Nodejs module that allows you to parse connection strings/objects in a consistent way. ",
@@ -19,7 +19,6 @@
     "string",
     "parse"
   ],
-  "author": "",
   "dependencies": {
     "lodash": "^4.17.10"
   },
