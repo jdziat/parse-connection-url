@@ -147,6 +147,12 @@ class Connection {
     knexConnection.database = conn.path.replace('/', '')
     return knexConnection
   }
+  toObject () {
+    const self = this
+    const auth = self.auth
+    const conn = self.connection
+    return _.merge({}, auth, conn)
+  }
   /**
    * toSolrConnection
    * @desc Returns an object that conforms to the solr connection format.

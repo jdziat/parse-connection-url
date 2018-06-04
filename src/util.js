@@ -15,14 +15,14 @@ function parseObject (conn, options) {
   options = options || {}
   const self = this || {}
   self.secureConnectionProtocols = options.secureProtocols || defaultSecureConnectionProtocols
-  let response = {
+  const response = {
     auth: {},
     connection: {}
   }
   if (!_.isUndefined(conn.url)) {
     const props = parseUrl(conn.url)
     response.auth = props.auth || {}
-    response.connection = props.connection
+    response.connection = props.connection || {}
   }
   response.auth.username = conn.username || conn.user || conn.prinicipal || response.auth.username
   if (!_.isUndefined(conn.auth)) {
