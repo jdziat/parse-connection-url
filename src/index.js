@@ -167,7 +167,7 @@ class Connection {
     solrConnection.port = conn.port
     solrConnection.bigint = true
     solrConnection.secure = conn.secure
-    solrConnection.database = conn.path
+    solrConnection.path = conn.path
     if (_.isUndefined(solrConnection.port)) {
       solrConnection.port = 8983
     }

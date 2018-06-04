@@ -29,6 +29,7 @@ fixtures.connections.forEach((conn) => {
           expect(connection.toSolrConnection()).to.have.property('password')
           expect(connection.toSolrConnection()).to.have.property('port')
           expect(connection.toSolrConnection()).to.have.property('bigint')
+          expect(connection.toSolrConnection()).to.have.property('path')
         } else {
           expect(toSolrConnection).to.throw()
         }
