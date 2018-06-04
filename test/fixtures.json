@@ -13,7 +13,7 @@
                 "valid": "",
                 "invalid": "root"
             },
-            "auth":"",
+            "auth": "",
             "hasAuth": false,
             "hasUsername": false,
             "hasPassword": false
@@ -22,11 +22,11 @@
             "desc": "PlainHttpObject",
             "protocol": "http",
             "conn": {
-                    "secure": false,
-                    "protocol": "http",
-                    "port": "",
-                    "path": "",
-                    "hostname": "localhost"
+                "secure": false,
+                "protocol": "http",
+                "port": "",
+                "path": "",
+                "hostname": "localhost"
             },
             "expectedUrl": "http://localhost",
             "username": {
@@ -37,7 +37,7 @@
                 "valid": "",
                 "invalid": "root"
             },
-            "auth":"",
+            "auth": "",
             "hasAuth": false,
             "hasUsername": false,
             "hasPassword": false
@@ -55,7 +55,7 @@
                 "valid": "root",
                 "invalid": "admin"
             },
-            "auth":"admin:root",
+            "auth": "admin:root",
             "hasAuth": true,
             "hasUsername": true,
             "hasPassword": true
@@ -64,13 +64,13 @@
             "desc": "PlainHttpsUrl",
             "protocol": "https",
             "conn": {
-                    "secure": false,
-                    "protocol": "https",
-                    "port": "",
-                    "path": "",
-                    "hostname": "localhost",
-                    "username": "admin",
-                    "password": "root"
+                "secure": false,
+                "protocol": "https",
+                "port": "",
+                "path": "",
+                "hostname": "localhost",
+                "username": "admin",
+                "password": "root"
             },
             "expectedUrl": "https://admin:root@localhost",
             "username": {
@@ -81,7 +81,7 @@
                 "valid": "root",
                 "invalid": "admin"
             },
-            "auth":"admin:root",
+            "auth": "admin:root",
             "hasAuth": true,
             "hasUsername": true,
             "hasPassword": true
@@ -90,13 +90,13 @@
             "desc": "PostgresWithAuth",
             "protocol": "postgres",
             "conn": {
-                    "secure": false,
-                    "protocol": "postgres",
-                    "port": 5432,
-                    "path": "/generic_database",
-                    "hostname": "localhost",
-                    "username": "postgres",
-                    "password": "root"
+                "secure": false,
+                "protocol": "postgres",
+                "port": 5432,
+                "path": "/generic_database",
+                "hostname": "localhost",
+                "username": "postgres",
+                "password": "root"
             },
             "expectedUrl": "postgres://postgres:root@localhost:5432/generic_database",
             "username": {
@@ -107,7 +107,29 @@
                 "valid": "root",
                 "invalid": "admin"
             },
-            "auth":"postgres:root",
+            "auth": "postgres:root",
+            "hasAuth": true,
+            "hasUsername": true,
+            "hasPassword": true
+        },
+        {
+            "desc": "SolrConnectionWithPassword",
+            "protocol": "http",
+            "conn": {
+                "password": "password",
+                "url": "http://solr:8983/solr",
+                "username": "solr"
+            },
+            "expectedUrl": "http://solr:password@solr:8983/solr",
+            "username": {
+                "valid": "solr",
+                "invalid": ""
+            },
+            "password": {
+                "valid": "password",
+                "invalid": "admin"
+            },
+            "auth": "solr:password",
             "hasAuth": true,
             "hasUsername": true,
             "hasPassword": true

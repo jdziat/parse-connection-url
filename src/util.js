@@ -21,7 +21,7 @@ function parseObject (conn, options) {
   }
   if (!_.isUndefined(conn.url)) {
     const props = parseUrl(conn.url)
-    response.auth = props.uth
+    response.auth = props.auth
     response.connection = props.connection
   }
   response.auth.username = conn.username || conn.user || conn.prinicipal || response.auth.username
