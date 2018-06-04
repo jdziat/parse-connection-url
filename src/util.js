@@ -24,6 +24,7 @@ function parseObject (conn, options) {
     response.auth = props.auth || {}
     response.connection = props.connection || {}
   }
+  conn = conn || {}
   response.auth.username = conn.username || conn.user || conn.prinicipal || response.auth.username
   if (!_.isUndefined(conn.auth)) {
     response.auth.username = conn.auth.username || conn.auth.user || conn.auth.prinicipal || response.auth.username
