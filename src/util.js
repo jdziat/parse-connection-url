@@ -19,8 +19,8 @@ function parseObject (conn, options) {
     auth: {},
     connection: {}
   }
-  if (!_.isUndefined(conn.url)) {
-    const props = parseUrl(conn.url)
+  if (!_.isUndefined(conn.url) || !_.isUndefined(conn.uri)) {
+    const props = parseUrl(conn.url || conn.uri)
     response.auth = props.auth || {}
     response.connection = props.connection || {}
   }
