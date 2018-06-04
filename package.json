@@ -3,7 +3,7 @@
   "homepage": "https://github.com/jdziat/parse-connection-url",
   "author": "",
   "license": "MIT",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A Nodejs module that allows you to parse connection strings/objects in a consistent way. ",
   "main": "src/index.js",
   "scripts": {
