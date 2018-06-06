@@ -1,6 +1,85 @@
 'use strict'
 const _ = require('lodash')
 const defaultSecureConnectionProtocols = ['ftps', 'sftp', 'https', 'ldaps']
+//
+// Start Stack Overlow Extract
+// Stackoverflow link: https://stackoverflow.com/questions/106179/regular-expression-to-match-dns-hostname-or-ip-address
+// Date Found: 06-05-2018
+// Original Author: Jorge Ferreira
+//
+const ValidIpAddressRegex = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
+const ValidHostnameRegex = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])$/
+/**
+ * determineUrlType
+ * @private
+ * @desc When passed a string determines what type of connection url/string is being provided and for what service.
+ * @param {String} url - The connection string that you want to determine the type of.
+ * @param {Object} options
+ * @param {String[]} secureProtocols - An array of strings to be used to determine if a protocol is marked as secure.ex  ['zookeeper', 'http', 'ftp', 'tcp', 'udp', 'sql', 'connectionUrl']
+ * @returns {String} typeOfUrl - The type of the url that was passed into the function. Can be 'zookeeper', 'http', 'ftp', 'tcp', 'udp', 'sql', 'connectionUrl'.
+ */
+function determineUrlType (url, secureProtocols) {
+  secureProtocols = secureProtocols || ['zookeeper', 'http', 'ftp', 'tcp', 'udp', 'sql', 'connectionUrl']
+  let typeOfUrl = ''
+  const httpFound = (/^http(s){0,1}:\/\//i).test(url)
+  const httpEnabled = (secureProtocols.indexOf('http') !== -1)
+  const tcpFound = (/^(tcp):\/\//i).test(url)
+  const tcpEnabled = (secureProtocols.indexOf('tcp') !== -1)
+  const udpFound = (/^(udp):\/\//i).test(url)
+  const udpEnabled = (secureProtocols.indexOf('udp') !== -1)
+  const ftpFound = (/^(ftp(s){0,1}|(s){0,1}ftp):\/\//i).test(url)
+  const ftpEnabled = (secureProtocols.indexOf('ftp') !== -1)
+  const connectionUrlFound = (/^jdbc:{1}[a-z]{1,20}:{1}\/\//i).test(url)
+  const connectionUrlEnabled = (secureProtocols.indexOf('connectionUrl') !== -1)
+  const sqlConnectionFound = (/(^[a-z]{0,10}sql|postgres|mysql|mssql|):\/\//i).test(url)
+  const sqlEnabled = (secureProtocols.indexOf('sql') !== -1)
+  const zookeeperFound = (ValidIpAddressRegex.test(url) === true || ValidHostnameRegex.test(url) === true)
+  const zookeeperEnabled = (secureProtocols.indexOf('zookeeper') !== -1)
+  if (httpFound === true && httpEnabled === true) {
+    typeOfUrl = 'http'
+  } else if (tcpFound === true && tcpEnabled === true) {
+    typeOfUrl = 'tcp'
+  } else if (udpFound === true && udpEnabled === true) {
+    typeOfUrl = 'udp'
+  } else if (ftpFound === true && ftpEnabled === true) {
+    typeOfUrl = 'ftp'
+  } else if (connectionUrlFound === true && connectionUrlEnabled === true) {
+    typeOfUrl = 'connectionUrl'
+  } else if (connectionUrlFound === true && connectionUrlEnabled === true) {
+    typeOfUrl = 'connectionUrl'
+  } else if (sqlConnectionFound === true && sqlEnabled === true) {
+    typeOfUrl = 'sql'
+  } else if (zookeeperFound === true && zookeeperEnabled === true) {
+    typeOfUrl = 'zookeeper'
+  }
+  if (typeOfUrl === '') {
+    throw new Error(`Unrecognized type for "${url}".`)
+  }
+  return typeOfUrl
+}
+/**
+ * hasCredentials
+ * @private
+ * @desc Determines if the url being passed has an authentication present.
+ * @param {String} url - The connection string that you want to determine if credentials were supplied with it.
+ * @returns {Boolean} foundCredentials - If a credential string is found returns true else false.
+ */
+function hasCredentials (url) {
+  let foundCredentials = false
+  let typeOf = determineUrlType(url)
+  if (typeOf !== 'zookeeper') {
+    let firstDelimiter = url.indexOf('://') + 3
+    let secondEndpoint = url.indexOf('/', firstDelimiter)
+    if (secondEndpoint === -1) {
+      secondEndpoint = url.length
+    }
+    let hasUsernamePassword = url.indexOf('@', firstDelimiter)
+    if (hasUsernamePassword < secondEndpoint && hasUsernamePassword !== -1) {
+      foundCredentials = true
+    }
+  }
+  return foundCredentials
+}
 
 /**
  * parseObject
@@ -19,21 +98,24 @@ function parseObject (conn, options) {
     auth: {},
     connection: {}
   }
-  if (!_.isUndefined(conn.url) || !_.isUndefined(conn.uri)) {
-    const props = parseUrl(conn.url || conn.uri)
+  if (!_.isUndefined(conn.url) || !_.isUndefined(conn.uri) || !_.isUndefined(conn.jdbcUrl) || !_.isUndefined(conn.jdbcurl)) {
+    let url = conn.url || conn.uri || conn.jdbcUrl || conn.jdbcurl
+    const props = parseUrl(url)
     response.auth = props.auth || {}
     response.connection = props.connection || {}
   }
   conn = conn || {}
-  response.auth.username = conn.username || conn.user || conn.prinicipal || response.auth.username
   if (!_.isUndefined(conn.auth)) {
     response.auth.username = conn.auth.username || conn.auth.user || conn.auth.prinicipal || response.auth.username
+    response.auth.password = conn.auth.password || conn.auth.pass || response.auth.password
   }
-  response.auth.password = conn.password || conn.pass || response.auth.password
   if (!_.isUndefined(conn.protocol)) {
     response.connection.secure = (self.secureConnectionProtocols.indexOf(conn.protocol))
   }
+  response.auth.username = conn.username || conn.user || conn.prinicipal || response.auth.username
+  response.auth.password = conn.password || conn.pass || response.auth.password
   response.connection.protocol = conn.protocol || response.connection.protocol
+  response.connection.type = conn.type || response.connection.type || determineUrlType(response.connection.protocol + '://')
   response.connection.port = conn.port || response.connection.port
   response.connection.hostname = conn.hostname || conn.host || response.connection.hostname
   response.connection.path = conn.path || conn.database || response.connection.path
@@ -55,21 +137,25 @@ function parseUrl (url, options) {
   url = url.trim()
   let response = {
     auth: {},
+    prefix: '',
     protocol: '',
     connection: {
       secure: false
     }
   }
+  response.connection.type = determineUrlType(url)
   let endOffset = url.length
   let protocolStart = url.indexOf('://')
   let protocolEnd = protocolStart + 3
   let forwardSlashIndex = url.indexOf('/', protocolEnd)
   let atIndex = url.indexOf('@')
   let colonIndex = url.indexOf(':', protocolEnd)
+  if (response.connection.type === 'connectionUrl') {
+    response.prefix = url.substr(0, protocolStart)
+  }
   if (protocolStart === -1) {
     throw new Error(`Must be a valid url with '://' within it. Url: ${url} does not meet those requirements`)
   }
-  response.connection.protocol = url.substr(0, protocolStart)
   if (self.secureConnectionProtocols.indexOf(response.connection.protocol) !== -1) {
     response.connection.secure = true
   }
@@ -90,14 +176,17 @@ function parseUrl (url, options) {
     }
     response.connection.path = url.substr(forwardSlashIndex)
   }
+  response.connection.protocol = url.substr(0, protocolStart)
   response.connection.hostname = url.substr(protocolEnd, endOffset)
-  if (response.connection.hostname.indexOf(/@|\\|\/|\||\(|\)|!|#|\$|%|\^|&|\*|=|-|_|`|~|\{|\}|\[|\]|"|'|:|;|<|>|\?/) !== -1) {
+  if (response.connection.hostname.indexOf(ValidIpAddressRegex) !== -1) {
     throw new Error('Invalid character found in hostname. ' + response.connection.hostname)
   }
   return response
 }
 
 module.exports = {
+  determineUrlType,
+  hasCredentials,
   parseUrl,
   parseObject
 }
