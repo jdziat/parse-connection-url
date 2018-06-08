@@ -48,6 +48,11 @@ class Connection {
     }
     self.connection = properties.connection
     self.auth = properties.auth
+    Object.defineProperty(self, '_original', {
+      enumerable: false,
+      value: urlOrObject,
+      writable: false
+    })
   }
   /**
    * hasAuth
@@ -76,7 +81,7 @@ class Connection {
   hasUsername () {
     const self = this
     const auth = self.auth
-    if (!_.isUndefined(auth.username)) {
+    if (!_.isUndefined(auth.username) && auth.username !== '') {
       return true
     } else {
       return false
@@ -93,7 +98,7 @@ class Connection {
   hasPassword () {
     const self = this
     const auth = self.auth
-    if (!_.isUndefined(auth.password)) {
+    if (!_.isUndefined(auth.password) && auth.password !== '') {
       return true
     } else {
       return false
@@ -192,10 +197,10 @@ class Connection {
       connectionString += self.getAuthString() + '@'
     }
     connectionString += connection.hostname
-    if (!_.isUndefined(connection.port)) {
+    if (!_.isUndefined(connection.port) && connection.port !== '') {
       connectionString += ':' + connection.port
     }
-    if (!_.isUndefined(connection.path)) {
+    if (!_.isUndefined(connection.path) && connection.path !== '') {
       connectionString += connection.path
     }
     return connectionString

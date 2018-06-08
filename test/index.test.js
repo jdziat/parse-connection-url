@@ -73,5 +73,16 @@ fixtures.connections.forEach((conn) => {
         expect(connection.hasAuth()).to.be.equal(conn.hasAuth)
       })
     })
+    describe('type', function () {
+      it('Should return one of the defined types. Values are: http,sql,solr,zookeeper,connectionString.', function () {
+        expect(connection.connection.type).to.be.an('string')
+        expect(connection.connection.type).to.be.equal(conn.type)
+      })
+    })
+    describe('original', function () {
+      it('The original value that was given to the constructor is stored in _original.', function () {
+        expect(connection.conn).to.be.equal(conn._original)
+      })
+    })
   })
 })

@@ -19,7 +19,7 @@ const ValidHostnameRegex = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])\
  * @returns {String} typeOfUrl - The type of the url that was passed into the function. Can be 'zookeeper', 'http', 'ftp', 'tcp', 'udp', 'sql', 'connectionUrl'.
  */
 function determineUrlType (url, secureProtocols) {
-  secureProtocols = secureProtocols || ['zookeeper', 'http', 'ftp', 'tcp', 'udp', 'sql', 'connectionUrl']
+  secureProtocols = secureProtocols || ['zookeeper', 'http', 'ftp', 'tcp', 'udp', 'sql', 'connectionString']
   let typeOfUrl = ''
   const httpFound = (/^http(s){0,1}:\/\//i).test(url)
   const httpEnabled = (secureProtocols.indexOf('http') !== -1)
@@ -29,8 +29,8 @@ function determineUrlType (url, secureProtocols) {
   const udpEnabled = (secureProtocols.indexOf('udp') !== -1)
   const ftpFound = (/^(ftp(s){0,1}|(s){0,1}ftp):\/\//i).test(url)
   const ftpEnabled = (secureProtocols.indexOf('ftp') !== -1)
-  const connectionUrlFound = (/^jdbc:{1}[a-z]{1,20}:{1}\/\//i).test(url)
-  const connectionUrlEnabled = (secureProtocols.indexOf('connectionUrl') !== -1)
+  const connectionUrlFound = (/^(jdbc|odbc):{1}[a-z]{1,20}:{1}\/\//i).test(url)
+  const connectionUrlEnabled = (secureProtocols.indexOf('connectionString') !== -1)
   const sqlConnectionFound = (/(^[a-z]{0,10}sql|postgres|mysql|mssql|):\/\//i).test(url)
   const sqlEnabled = (secureProtocols.indexOf('sql') !== -1)
   const zookeeperFound = (ValidIpAddressRegex.test(url) === true || ValidHostnameRegex.test(url) === true)
@@ -44,9 +44,7 @@ function determineUrlType (url, secureProtocols) {
   } else if (ftpFound === true && ftpEnabled === true) {
     typeOfUrl = 'ftp'
   } else if (connectionUrlFound === true && connectionUrlEnabled === true) {
-    typeOfUrl = 'connectionUrl'
-  } else if (connectionUrlFound === true && connectionUrlEnabled === true) {
-    typeOfUrl = 'connectionUrl'
+    typeOfUrl = 'connectionString'
   } else if (sqlConnectionFound === true && sqlEnabled === true) {
     typeOfUrl = 'sql'
   } else if (zookeeperFound === true && zookeeperEnabled === true) {
@@ -95,8 +93,14 @@ function parseObject (conn, options) {
   const self = this || {}
   self.secureConnectionProtocols = options.secureProtocols || defaultSecureConnectionProtocols
   const response = {
-    auth: {},
-    connection: {}
+    auth: {username: '', password: ''},
+    connection: {
+      prefix: '',
+      protocol: '',
+      path: '',
+      port: '',
+      secure: false
+    }
   }
   if (!_.isUndefined(conn.url) || !_.isUndefined(conn.uri) || !_.isUndefined(conn.jdbcUrl) || !_.isUndefined(conn.jdbcurl)) {
     let url = conn.url || conn.uri || conn.jdbcUrl || conn.jdbcurl
@@ -110,10 +114,11 @@ function parseObject (conn, options) {
     response.auth.password = conn.auth.password || conn.auth.pass || response.auth.password
   }
   if (!_.isUndefined(conn.protocol)) {
-    response.connection.secure = (self.secureConnectionProtocols.indexOf(conn.protocol))
+    response.connection.secure = (self.secureConnectionProtocols.indexOf(conn.protocol) !== -1)
   }
   response.auth.username = conn.username || conn.user || conn.prinicipal || response.auth.username
   response.auth.password = conn.password || conn.pass || response.auth.password
+  response.connection.prefix = conn.prefix || response.connection.prefix
   response.connection.protocol = conn.protocol || response.connection.protocol
   response.connection.type = conn.type || response.connection.type || determineUrlType(response.connection.protocol + '://')
   response.connection.port = conn.port || response.connection.port
@@ -135,11 +140,13 @@ function parseUrl (url, options) {
   const self = this || {}
   self.secureConnectionProtocols = options.secureProtocols || defaultSecureConnectionProtocols
   url = url.trim()
-  let response = {
-    auth: {},
-    prefix: '',
-    protocol: '',
+  const response = {
+    auth: {username: '', password: ''},
     connection: {
+      prefix: '',
+      protocol: '',
+      path: '',
+      port: '',
       secure: false
     }
   }
@@ -150,8 +157,11 @@ function parseUrl (url, options) {
   let forwardSlashIndex = url.indexOf('/', protocolEnd)
   let atIndex = url.indexOf('@')
   let colonIndex = url.indexOf(':', protocolEnd)
-  if (response.connection.type === 'connectionUrl') {
-    response.prefix = url.substr(0, protocolStart)
+  response.connection.protocol = url.substr(0, protocolStart)
+  if (response.connection.type === 'connectionUrl' || response.connection.type === 'connectionString') {
+    const connectionColon = url.indexOf(':') + 1
+    response.connection.prefix = url.substr(0, protocolStart)
+    response.connection.protocol = url.substr(connectionColon, protocolStart - connectionColon)
   }
   if (protocolStart === -1) {
     throw new Error(`Must be a valid url with '://' within it. Url: ${url} does not meet those requirements`)
@@ -176,7 +186,6 @@ function parseUrl (url, options) {
     }
     response.connection.path = url.substr(forwardSlashIndex)
   }
-  response.connection.protocol = url.substr(0, protocolStart)
   response.connection.hostname = url.substr(protocolEnd, endOffset)
   if (response.connection.hostname.indexOf(ValidIpAddressRegex) !== -1) {
     throw new Error('Invalid character found in hostname. ' + response.connection.hostname)
