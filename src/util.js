@@ -140,7 +140,7 @@ function parseUrl (url, options) {
   let endOffset = url.length
   let protocolStart = url.indexOf('://')
   let protocolEnd = protocolStart + 3
-  let forwardSlashIndex = url.indexOf('/', protocolEnd)
+  let forwardSlashIndex = ((url.indexOf('/', protocolEnd) === -1) ? url.length : url.indexOf('/', protocolEnd))
   let atIndex = url.indexOf('@')
   let colonIndex = url.indexOf(':', protocolEnd)
   response.connection.protocol = url.substr(0, protocolStart)
@@ -172,7 +172,14 @@ function parseUrl (url, options) {
     }
     response.connection.path = url.substr(forwardSlashIndex)
   }
-  response.connection.port = response.connection.port || portNumbers.getPort(response.connection.protocol).port
+  let portNumberLookup
+  if (!_.isUndefined(response.connection.protocol)) {
+    const portFound = portNumbers.getPort(response.connection.protocol)
+    if (_.isObject(portFound)) {
+      portNumberLookup = portFound.port
+    }
+  }
+  response.connection.port = response.connection.port || portNumberLookup
   response.connection.hostname = url.substr(protocolEnd, endOffset)
   if (response.connection.hostname.indexOf(ValidIpAddressRegex) !== -1) {
     throw new Error('Invalid character found in hostname. ' + response.connection.hostname)
