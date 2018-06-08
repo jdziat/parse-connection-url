@@ -13,14 +13,17 @@ const Util = require('./util.js')
 //   username: 'postgres' }
 // const connectionUrl = 'jdbc:mssql://admin:admin@somethingelse:5432/dreadnaught'
 
-const conn = new Connector('http://localhost')
-console.log(JSON.stringify(conn))
-console.log(JSON.stringify(Util.parseObject({
-  'secure': false,
-  'protocol': 'postgres',
-  'port': 5432,
-  'path': '/generic_database',
-  'hostname': 'localhost',
-  'username': 'postgres',
-  'password': 'root'
-})))
+const conn = new Connector('postgres://postgres:root@localhost:5432/generic_database')
+console.log(JSON.stringify(conn.toUrl()))
+// console.log(JSON.stringify(conn))
+// // console.log(JSON.stringify(Util.parseObject({
+// //   'secure': false,
+// //   'protocol': 'postgres',
+// //   'port': 5432,
+// //   'path': '/generic_database',
+// //   'hostname': 'localhost',
+// //   'username': 'postgres',
+// //   'password': 'root'
+// // })))
+
+// console.log(JSON.stringify(Util.determineUrlType('postgres://postgres:root@localhost/generic_database')))

@@ -1,6 +1,9 @@
 'use strict'
 const _ = require('lodash')
 const defaultSecureConnectionProtocols = ['ftps', 'sftp', 'https', 'ldaps']
+const portNumbers = require('port-numbers')
+const Joi = require('joi')
+const schemas = require('./schema.js')
 //
 // Start Stack Overlow Extract
 // Stackoverflow link: https://stackoverflow.com/questions/106179/regular-expression-to-match-dns-hostname-or-ip-address
@@ -92,16 +95,7 @@ function parseObject (conn, options) {
   options = options || {}
   const self = this || {}
   self.secureConnectionProtocols = options.secureProtocols || defaultSecureConnectionProtocols
-  const response = {
-    auth: {username: '', password: ''},
-    connection: {
-      prefix: '',
-      protocol: '',
-      path: '',
-      port: '',
-      secure: false
-    }
-  }
+  const response = Joi.validate({}, schemas.UnifiedConnectionSchema).value
   if (!_.isUndefined(conn.url) || !_.isUndefined(conn.uri) || !_.isUndefined(conn.jdbcUrl) || !_.isUndefined(conn.jdbcurl)) {
     let url = conn.url || conn.uri || conn.jdbcUrl || conn.jdbcurl
     const props = parseUrl(url)
@@ -121,7 +115,8 @@ function parseObject (conn, options) {
   response.connection.prefix = conn.prefix || response.connection.prefix
   response.connection.protocol = conn.protocol || response.connection.protocol
   response.connection.type = conn.type || response.connection.type || determineUrlType(response.connection.protocol + '://')
-  response.connection.port = conn.port || response.connection.port
+  response.connection.port = conn.port || response.connection.port || portNumbers.getPort(response.connection.protocol).port
+
   response.connection.hostname = conn.hostname || conn.host || response.connection.hostname
   response.connection.path = conn.path || conn.database || response.connection.path
   return response
@@ -140,16 +135,7 @@ function parseUrl (url, options) {
   const self = this || {}
   self.secureConnectionProtocols = options.secureProtocols || defaultSecureConnectionProtocols
   url = url.trim()
-  const response = {
-    auth: {username: '', password: ''},
-    connection: {
-      prefix: '',
-      protocol: '',
-      path: '',
-      port: '',
-      secure: false
-    }
-  }
+  const response = Joi.validate({}, schemas.UnifiedConnectionSchema).value
   response.connection.type = determineUrlType(url)
   let endOffset = url.length
   let protocolStart = url.indexOf('://')
@@ -186,6 +172,7 @@ function parseUrl (url, options) {
     }
     response.connection.path = url.substr(forwardSlashIndex)
   }
+  response.connection.port = response.connection.port || portNumbers.getPort(response.connection.protocol).port
   response.connection.hostname = url.substr(protocolEnd, endOffset)
   if (response.connection.hostname.indexOf(ValidIpAddressRegex) !== -1) {
     throw new Error('Invalid character found in hostname. ' + response.connection.hostname)

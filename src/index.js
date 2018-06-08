@@ -5,34 +5,20 @@
  * @file Connection
  * @author Jordan Dziat <mailto:jordan@dziat.com>
  */
+
 const _ = require('lodash')
 const {parseObject, parseUrl} = require('./util.js')
+const portNumbers = require('port-numbers')
+/**
+ * @typedef UnifiedConnectionSchema
+ */
 const defaultSecureConnectionProtocols = ['ftps', 'sftp', 'https', 'ldaps']
-/**
- * @typedef
- * AuthOptions
- * @type Object
- * @property {String} [username] - the username to use for authentication.
- * @property {String} [user] - the username to use for authentication.
- * @property {String} [password] - the password to use for authentication.
- * @property {String} [pass] - the password to use for authentication.
- */
-/**
- * @typedef
- * ConnectionOptions
- * @type Object
- * @property {String} [hostname] - the hostname for the connection
- *  @example localhost,dziat.com
- * @property {String} [protocol] - the protocol for the connection/url
- *  @example http,https,ftp,ftps,smb,ldap,ldaps
- * @property {AuthOptions} [auth] - the hostname for the connection
- */
 
 class Connection {
   /**
    * @desc Creates a Connection object that can parse objects or url string to a number of different formats.
    * @constructor
-   * @param {(ConnectionOptions|String)} urlOrObject - The values used to init both the solr and seal clients.
+   * @param {(UnifiedConnectionSchema|String)} urlOrObject - The values used to init both the solr and seal clients.
    * @param {Object} options
    * @param {String[]} options.secureProtocols - An array of strings to be used to determine if a protocol is marked as secure.
    */
@@ -192,13 +178,17 @@ class Connection {
   toUrl () {
     const self = this
     const connection = self.connection
+    console.log(connection)
     let connectionString = connection.protocol + '://'
     if (self.hasAuth() === true) {
       connectionString += self.getAuthString() + '@'
     }
     connectionString += connection.hostname
+    const defaultPort = (portNumbers.getPort(connection.protocol) || ((connection.protocol === 'postgres') ? {port: 5432} : {port: ''})).port
     if (!_.isUndefined(connection.port) && connection.port !== '') {
-      connectionString += ':' + connection.port
+      if (connection.port !== defaultPort) {
+        connectionString += ':' + connection.port
+      }
     }
     if (!_.isUndefined(connection.path) && connection.path !== '') {
       connectionString += connection.path

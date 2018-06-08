@@ -154,8 +154,8 @@
         <dl>
                 
 <hr>
-<dt class="name" id="AuthOptions">
-    <h4 id="AuthOptions">AuthOptions</h4>
+<dt class="name" id="AuthSchema">
+    <h4 id="AuthSchema">AuthSchema</h4>
 
     
 </dt>
@@ -167,7 +167,7 @@
         <ul>
             <li>
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
 
 
 
@@ -192,8 +192,6 @@
 
         <th>Type</th>
 
-        
-        <th>Argument</th>
         
 
         
@@ -221,50 +219,10 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">the username to use for authentication.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">the username to use for authentication.</td>
+            <td class="description last">The username used for authentication purposes.</td>
         </tr>
 
     
@@ -285,50 +243,10 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">the password to use for authentication.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>pass</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">the password to use for authentication.</td>
+            <td class="description last">The password used for authentication purposes.</td>
         </tr>
 
     
@@ -380,8 +298,8 @@
             
                 
 <hr>
-<dt class="name" id="ConnectionOptions">
-    <h4 id="ConnectionOptions">ConnectionOptions</h4>
+<dt class="name" id="ConnectionSchema">
+    <h4 id="ConnectionSchema">ConnectionSchema</h4>
 
     
 </dt>
@@ -393,7 +311,7 @@
         <ul>
             <li>
                 
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
 
 
 
@@ -419,8 +337,6 @@
         <th>Type</th>
 
         
-        <th>Argument</th>
-        
 
         
 
@@ -429,6 +345,30 @@
     </thead>
 
     <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>prefix</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">For connection-strings there is a prefix in the url. Example: jdbc or odbc.</td>
+        </tr>
+
     
 
         <tr>
@@ -447,25 +387,41 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">the hostname for the connection</td>
+            <td class="description last">The hostname for the connection.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>protocol</code></td>
+                <td class="name"><code>port</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The port used by the service.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
             
 
             <td class="type">
@@ -479,31 +435,23 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">the protocol for the connection/url</td>
+            <td class="description last">The path is a string that can reference a specific resource like an api endpoint or a database.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>auth</code></td>
+                <td class="name"><code>secure</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#AuthOptions">AuthOptions</a></span>
+<span class="param-type">Boolean</span>
 
 
 
@@ -511,18 +459,10 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">the hostname for the connection</td>
+            <td class="description last">Whether or not the connection you are parsing is secured via TLS/SSL.</td>
         </tr>
 
     
@@ -569,11 +509,203 @@
 
 
     
-        <h5>Examples</h5>
-        
-    <pre class="sunlight-highlight-javascript">localhost,dziat.com</pre>
+</dd>
 
-    <pre class="sunlight-highlight-javascript">http,https,ftp,ftps,smb,ldap,ldaps</pre>
+            
+                
+<hr>
+<dt class="name" id="UnifiedConnectionSchema">
+    <h4 id="UnifiedConnectionSchema">UnifiedConnectionSchema</h4>
+
+    
+</dt>
+<dd>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
+                
+<hr>
+<dt class="name" id="UnifiedConnectionShema">
+    <h4 id="UnifiedConnectionShema">UnifiedConnectionShema</h4>
+
+    
+</dt>
+<dd>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">object</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>connection</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#ConnectionSchema">ConnectionSchema</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>auth</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#AuthSchema">AuthSchema</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
 
 
     
@@ -627,7 +759,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
 	
-		on 2018-06-07T19:59:42-07:00
+		on 2018-06-08T09:48:35-07:00
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
