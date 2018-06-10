@@ -12,7 +12,7 @@ const Util = require('./util.js')
 //   password: 'somethingsomething',
 //   username: 'postgres' }
 // const connectionUrl = 'jdbc:mssql://admin:admin@somethingelse:5432/dreadnaught'
-console.log(JSON.stringify(Util.parseUrl('tcp://broker:61616')))
+console.log(JSON.stringify(Util.parseUrl('jdbc:postgresql://postgres:5432/blast')))
 // const conn = new Connector('postgres://postgres:root@localhost:5432/generic_database')
 // console.log(JSON.stringify(conn.toUrl()))
 // console.log(JSON.stringify(conn))

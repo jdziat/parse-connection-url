@@ -150,7 +150,7 @@
             "desc": "PostgresJdbcConnectionString",
             "protocol": "connectionUrl",
             "conn": "jdbc:postgresql://admin:admin@postgres:5432/seal",
-            "expectedConn":{"auth":{"username":"admin","password":"admin"},"connection":{"prefix":"jdbc:postgresql","protocol":"postgresql","secure":false,"type":"connectionString","port":5432,"path":"/seal","hostname":"postgres"}},
+            "expectedConn":{"auth":{"username":"admin","password":"admin"},"connection":{"prefix":"jdbc","protocol":"postgresql","secure":false,"type":"connectionString","port":5432,"path":"/seal","hostname":"postgres"}},
             "expectedUrl": "postgresql://admin:admin@postgres/seal",
             "username": {
                 "valid": "admin",

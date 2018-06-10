@@ -146,7 +146,7 @@ function parseUrl (url, options) {
   response.connection.protocol = url.substr(0, protocolStart)
   if (response.connection.type === 'connectionUrl' || response.connection.type === 'connectionString') {
     const connectionColon = url.indexOf(':') + 1
-    response.connection.prefix = url.substr(0, protocolStart)
+    response.connection.prefix = url.substr(0, connectionColon - 1)
     response.connection.protocol = url.substr(connectionColon, protocolStart - connectionColon)
   }
   if (protocolStart === -1) {
