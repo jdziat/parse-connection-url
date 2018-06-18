@@ -178,7 +178,7 @@ class Connection {
   toStandardConnection () {
     const self = this
     const response = {}
-    response.url = [self.connection.protocol, self.connection.hostname].join('//')
+    response.url = [self.connection.protocol, self.connection.hostname].join('://')
     if (self.connection.port !== '' && !_.isUndefined(self.connection.port)) {
       response.url += ':' + self.connection.port
     }
