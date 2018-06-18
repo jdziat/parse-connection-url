@@ -171,6 +171,22 @@ class Connection {
     return solrConnection
   }
   /**
+   * toStandardConnection
+   * @desc Returns a string representation of this connection.
+   * @returns {Object} connection
+   */
+  toStandardConnection () {
+    const self = this
+    const response = {}
+    response.url = [self.connection.protocol, self.connection.hostname].join('//')
+    if (self.connection.port !== '' && !_.isUndefined(self.connection.port)) {
+      response.url += ':' + self.connection.port
+    }
+    response.username = self.auth.username
+    response.password = self.auth.password
+    return response
+  }
+  /**
    * toUrl
    * @desc Returns a string representation of this connection.
    * @returns {String}

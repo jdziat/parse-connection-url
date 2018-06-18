@@ -17,6 +17,21 @@ const ConnectionSchema = Joi.object().keys({
   secure: Joi.boolean().default(false)
 })
 /**
+ * @typedef {object} ConnectionSchema
+ * @type Object
+ * @property {String} url - For connection-strings there is a prefix in the url. Example: jdbc or odbc.
+ * @property {Object} auth - Contains the username and password for the connection..
+ * @property {String} auth.username - The connection username that was supplied.
+ * @property {String} auth.password - The connection password that was supplied.
+ */
+const StandardConnectionSchema = Joi.object().keys({
+  prefix: Joi.string().default(''),
+  hostname: Joi.string().default(''),
+  port: Joi.number().default(0),
+  path: Joi.string().default(''),
+  secure: Joi.boolean().default(false)
+})
+/**
  * @typedef {object} AuthSchema
  * @type Object
  * @property {String} username - The username used for authentication purposes.
@@ -36,4 +51,4 @@ const UnifiedConnectionSchema = Joi.object().keys({
   connection: ConnectionSchema.default(),
   auth: AuthSchema.default()
 })
-module.exports = {AuthSchema, ConnectionSchema, UnifiedConnectionSchema}
+module.exports = {AuthSchema, ConnectionSchema, UnifiedConnectionSchema, StandardConnectionSchema}
