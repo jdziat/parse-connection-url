@@ -1,10 +1,39 @@
 {
+    "connection": {
+        "connection": {
+            "prefix": "",
+            "hostname": "sealws",
+            "port": 8081,
+            "path": "/seal-ws",
+            "secure": false,
+            "type": "http",
+            "protocol": "http"
+        },
+        "auth": {
+            "username": "root",
+            "password": "{enc3}0be3c7edcbbc24dd9083fcd47249a8c238de94aced171b54202f3a0db9ffe0af1318e6bdbda986fbe932b6be8d8ea8a5a10099887e091e41fc46cf6b522528509e525f4edf2e36e5172eb6f759dc3b387f8835985e1370cdfdc004d54fd92505aadd03e9f1a6c6d3e5aca78c4c77ac4e9d151302aca7926b13628afc1ec58df28e4f6d430a198944e7146faf969ba869"
+        }
+    },
     "connections": [
         {
             "desc": "PlainHttpUrl",
             "protocol": "http",
             "conn": "http://localhost",
-            "expectedConn":{"connection":{"secure":false,"type":"http","path":"","port":80,"prefix":"","protocol":"http","hostname":"localhost"},"auth":{"username":"","password":""}},
+            "expectedConn": {
+                "connection": {
+                    "secure": false,
+                    "type": "http",
+                    "path": "",
+                    "port": 80,
+                    "prefix": "",
+                    "protocol": "http",
+                    "hostname": "localhost"
+                },
+                "auth": {
+                    "username": "",
+                    "password": ""
+                }
+            },
             "expectedUrl": "http://localhost",
             "username": {
                 "valid": "",
@@ -18,7 +47,7 @@
             "hasAuth": false,
             "hasUsername": false,
             "hasPassword": false,
-            "type":"http"
+            "type": "http"
         },
         {
             "desc": "PlainHttpObject",
@@ -30,7 +59,21 @@
                 "path": "",
                 "hostname": "localhost"
             },
-            "expectedConn":{"connection":{"secure":false,"type":"http","path":"","port":80,"prefix":"","protocol":"http","hostname":"localhost"},"auth":{"username":"","password":""}},            
+            "expectedConn": {
+                "connection": {
+                    "secure": false,
+                    "type": "http",
+                    "path": "",
+                    "port": 80,
+                    "prefix": "",
+                    "protocol": "http",
+                    "hostname": "localhost"
+                },
+                "auth": {
+                    "username": "",
+                    "password": ""
+                }
+            },
             "expectedUrl": "http://localhost",
             "username": {
                 "valid": "",
@@ -44,13 +87,27 @@
             "hasAuth": false,
             "hasUsername": false,
             "hasPassword": false,
-            "type":"http"
+            "type": "http"
         },
         {
             "desc": "PlainHttpsUrl",
             "protocol": "https",
             "conn": "https://admin:root@localhost",
-            "expectedConn":{"connection":{"secure":true,"type":"http","path":"","port":443,"prefix":"","protocol":"https","hostname":"localhost"},"auth":{"username":"admin","password":"root"}},            
+            "expectedConn": {
+                "connection": {
+                    "secure": true,
+                    "type": "http",
+                    "path": "",
+                    "port": 443,
+                    "prefix": "",
+                    "protocol": "https",
+                    "hostname": "localhost"
+                },
+                "auth": {
+                    "username": "admin",
+                    "password": "root"
+                }
+            },
             "expectedUrl": "https://admin:root@localhost",
             "username": {
                 "valid": "admin",
@@ -64,7 +121,7 @@
             "hasAuth": true,
             "hasUsername": true,
             "hasPassword": true,
-            "type":"http"
+            "type": "http"
         },
         {
             "desc": "PlainHttpsUrl",
@@ -78,7 +135,21 @@
                 "username": "admin",
                 "password": "root"
             },
-            "expectedConn":{"connection":{"secure":true,"type":"http","path":"","port":443,"prefix":"","protocol":"https","hostname":"localhost"},"auth":{"username":"admin","password":"root"}},            
+            "expectedConn": {
+                "connection": {
+                    "secure": true,
+                    "type": "http",
+                    "path": "",
+                    "port": 443,
+                    "prefix": "",
+                    "protocol": "https",
+                    "hostname": "localhost"
+                },
+                "auth": {
+                    "username": "admin",
+                    "password": "root"
+                }
+            },
             "expectedUrl": "https://admin:root@localhost",
             "username": {
                 "valid": "admin",
@@ -92,7 +163,7 @@
             "hasAuth": true,
             "hasUsername": true,
             "hasPassword": true,
-            "type":"http"
+            "type": "http"
         },
         {
             "desc": "PostgresWithAuth",
@@ -106,7 +177,21 @@
                 "username": "postgres",
                 "password": "root"
             },
-            "expectedConn":{"auth":{"username":"postgres","password":"root"},"connection":{"prefix":"","protocol":"postgres","path":"/generic_database","port":5432,"secure":false,"type":"sql","hostname":"localhost"}},
+            "expectedConn": {
+                "auth": {
+                    "username": "postgres",
+                    "password": "root"
+                },
+                "connection": {
+                    "prefix": "",
+                    "protocol": "postgres",
+                    "path": "/generic_database",
+                    "port": 5432,
+                    "secure": false,
+                    "type": "sql",
+                    "hostname": "localhost"
+                }
+            },
             "expectedUrl": "postgres://postgres:root@localhost/generic_database",
             "username": {
                 "valid": "postgres",
@@ -120,7 +205,7 @@
             "hasAuth": true,
             "hasUsername": true,
             "hasPassword": true,
-            "type":"sql"
+            "type": "sql"
         },
         {
             "desc": "SolrConnectionWithPassword",
@@ -130,7 +215,21 @@
                 "url": "http://solr:8983/solr",
                 "username": "solr"
             },
-            "expectedConn":{"auth":{"username":"solr","password":"password"},"connection":{"prefix":"","protocol":"http","secure":false,"type":"http","port":8983,"path":"/solr","hostname":"solr"}},
+            "expectedConn": {
+                "auth": {
+                    "username": "solr",
+                    "password": "password"
+                },
+                "connection": {
+                    "prefix": "",
+                    "protocol": "http",
+                    "secure": false,
+                    "type": "http",
+                    "port": 8983,
+                    "path": "/solr",
+                    "hostname": "solr"
+                }
+            },
             "expectedUrl": "http://solr:password@solr:8983/solr",
             "username": {
                 "valid": "solr",
@@ -144,13 +243,27 @@
             "hasAuth": true,
             "hasUsername": true,
             "hasPassword": true,
-            "type":"http"
+            "type": "http"
         },
         {
             "desc": "PostgresJdbcConnectionString",
             "protocol": "connectionUrl",
             "conn": "jdbc:postgresql://admin:admin@postgres:5432/seal",
-            "expectedConn":{"auth":{"username":"admin","password":"admin"},"connection":{"prefix":"jdbc","protocol":"postgresql","secure":false,"type":"connectionString","port":5432,"path":"/seal","hostname":"postgres"}},
+            "expectedConn": {
+                "auth": {
+                    "username": "admin",
+                    "password": "admin"
+                },
+                "connection": {
+                    "prefix": "jdbc",
+                    "protocol": "postgresql",
+                    "secure": false,
+                    "type": "connectionString",
+                    "port": 5432,
+                    "path": "/seal",
+                    "hostname": "postgres"
+                }
+            },
             "expectedUrl": "postgresql://admin:admin@postgres/seal",
             "username": {
                 "valid": "admin",
@@ -164,7 +277,7 @@
             "hasAuth": true,
             "hasUsername": true,
             "hasPassword": true,
-            "type":"connectionString"
+            "type": "connectionString"
         }
     ]
 }

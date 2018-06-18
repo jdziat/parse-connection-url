@@ -194,7 +194,6 @@ class Connection {
   toUrl () {
     const self = this
     const connection = self.connection
-    console.log(connection)
     let connectionString = connection.protocol + '://'
     if (self.hasAuth() === true) {
       connectionString += self.getAuthString() + '@'

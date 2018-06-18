@@ -92,6 +92,9 @@ function hasCredentials (url) {
  * @returns {Object}
  */
 function parseObject (conn, options) {
+  conn = conn || {}
+  conn.connection = conn.connection || {}
+  conn.auth = conn.auth || {}
   options = options || {}
   const self = this || {}
   self.secureConnectionProtocols = options.secureProtocols || defaultSecureConnectionProtocols
@@ -110,15 +113,15 @@ function parseObject (conn, options) {
   if (!_.isUndefined(conn.protocol)) {
     response.connection.secure = (self.secureConnectionProtocols.indexOf(conn.protocol) !== -1)
   }
-  response.auth.username = conn.username || conn.user || conn.prinicipal || response.auth.username
-  response.auth.password = conn.password || conn.pass || response.auth.password
-  response.connection.prefix = conn.prefix || response.connection.prefix
-  response.connection.protocol = conn.protocol || response.connection.protocol
-  response.connection.type = conn.type || response.connection.type || determineUrlType(response.connection.protocol + '://')
-  response.connection.port = conn.port || response.connection.port || portNumbers.getPort(response.connection.protocol).port
+  response.auth.username = conn.username || conn.user || conn.prinicipal || conn.auth.username || response.auth.username
+  response.auth.password = conn.password || conn.pass || conn.auth.password || response.auth.password
+  response.connection.prefix = conn.prefix || conn.connection.prefix || response.connection.prefix
+  response.connection.protocol = conn.protocol || conn.connection.protocol || response.connection.protocol || 'http'
+  response.connection.type = conn.type || conn.connection.type || response.connection.type || determineUrlType(response.connection.protocol + '://')
+  response.connection.port = conn.port || conn.connection.port || response.connection.port || portNumbers.getPort(response.connection.protocol).port
 
-  response.connection.hostname = conn.hostname || conn.host || response.connection.hostname
-  response.connection.path = conn.path || conn.database || response.connection.path
+  response.connection.hostname = conn.hostname || conn.connection.hostname || conn.host || response.connection.hostname
+  response.connection.path = conn.path || conn.connection.path || conn.database || response.connection.path
   return response
 }
 /**

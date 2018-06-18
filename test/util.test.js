@@ -5,6 +5,12 @@ const expect = require('chai').expect
 const Connection = require('../src/index.js')
 const utilityFunctions = require('../src/util.js')
 const fixtures = require('./fixtures.json')
+describe(`Testing that we can parse out a saved connection object.`, () => {
+  const conn = new Connection(fixtures.connection)
+  it('The newly created connection should match the previously created one.', () => {
+    expect(conn).to.deep.equal(fixtures.connection)
+  })
+})
 fixtures.connections.forEach((conn) => {
   let connection = new Connection(conn.conn, conn.options)
   describe(`Checking the connection: "${conn.desc}"`, function () {
