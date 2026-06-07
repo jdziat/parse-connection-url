@@ -63,3 +63,6 @@ typings/
 # IDE Settings
 .vscode
 .idea
+# VitePress
+docs/.vitepress/dist
+docs/.vitepress/cache

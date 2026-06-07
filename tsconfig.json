@@ -11,7 +11,8 @@
     "skipLibCheck": false,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
-    "declaration": true
+    "declaration": true,
+    "types": []
   },
   "include": ["index.d.ts"],
   "exclude": ["node_modules"]
