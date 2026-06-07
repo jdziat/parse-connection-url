@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [18, 20, 22]
+        node-version: [20, 22, 24]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
@@ -38,7 +38,7 @@ jobs:
         run: npm test
 
       - name: Run coverage
-        if: matrix.node-version == 20 && matrix.os == 'ubuntu-latest'
+        if: matrix.node-version == 24 && matrix.os == 'ubuntu-latest'
         run: npm run test:coverage
 
   lint:
@@ -50,7 +50,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - run: npm ci
@@ -66,7 +66,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - run: npm ci
@@ -94,7 +94,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - run: npm ci
