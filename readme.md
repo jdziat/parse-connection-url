@@ -1,9 +1,13 @@
 # Parse Connection Url
-<p align="center">
-  <a href="https://standardjs.com"><img src="https://img.shields.io/badge/code_style-standard-brightgreen.svg" alt="Standard - JavaScript Style Guide"></a>
-</p>
 
-A Nodejs module that allows you to parse connection strings/objects in a consistent way.
+[![npm version](https://badge.fury.io/js/parse-connection-url.svg)](https://www.npmjs.com/package/parse-connection-url)
+[![CI](https://github.com/jdziat/parse-connection-url/workflows/CI/badge.svg)](https://github.com/jdziat/parse-connection-url/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/node/v/parse-connection-url.svg)](https://nodejs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
+[![Zero Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](https://www.npmjs.com/package/parse-connection-url)
+
+A Node.js module that allows you to parse connection strings and objects in a consistent way. Zero dependencies.
 
 ## Table of Contents
 

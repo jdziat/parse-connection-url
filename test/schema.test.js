@@ -1,23 +1,32 @@
-/* eslint-disable no-undef, handle-callback-err */
 'use strict'
-const expect = require('chai').expect
-const Joi = require('joi')
 const schemas = require('../src/schema.js')
-const UnifiedConnectionSchema = schemas.UnifiedConnectionSchema
-const defaultUCS = Joi.validate({}, UnifiedConnectionSchema).value
+const defaultUCS = schemas.createDefaultUnifiedConnection()
 
-describe('Check the unified connection schema to make sure it has the correct defaults.', function () {
-  it('Should have the auth and connection properties', function () {
-    expect(defaultUCS).to.have.property('auth')
-    expect(defaultUCS.auth).to.be.an('object')
-    expect(defaultUCS).to.have.property('connection')
-    expect(defaultUCS.connection).to.be.an('object')
+describe('Check the unified connection schema to make sure it has the correct defaults.', () => {
+  it('Should have the auth and connection properties', () => {
+    expect(defaultUCS).toHaveProperty('auth')
+    expect(typeof defaultUCS.auth).toBe('object')
+    expect(defaultUCS).toHaveProperty('connection')
+    expect(typeof defaultUCS.connection).toBe('object')
   })
-  it('Connection should contain the default properties: prefix,hostname,port,path,secure', function () {
-    expect(defaultUCS.connection).to.have.property('prefix')
-    expect(defaultUCS.connection).to.have.property('hostname')
-    expect(defaultUCS.connection).to.have.property('port')
-    expect(defaultUCS.connection).to.have.property('path')
-    expect(defaultUCS.connection).to.have.property('secure')
+  it('Connection should contain the default properties: prefix,hostname,port,path,secure', () => {
+    expect(defaultUCS.connection).toHaveProperty('prefix')
+    expect(defaultUCS.connection).toHaveProperty('hostname')
+    expect(defaultUCS.connection).toHaveProperty('port')
+    expect(defaultUCS.connection).toHaveProperty('path')
+    expect(defaultUCS.connection).toHaveProperty('secure')
+  })
+  it('Auth should contain the default properties: username, password', () => {
+    expect(defaultUCS.auth).toHaveProperty('username')
+    expect(defaultUCS.auth).toHaveProperty('password')
+  })
+  it('Should have correct default values', () => {
+    expect(defaultUCS.connection.prefix).toBe('')
+    expect(defaultUCS.connection.hostname).toBe('')
+    expect(defaultUCS.connection.port).toBe(0)
+    expect(defaultUCS.connection.path).toBe('')
+    expect(defaultUCS.connection.secure).toBe(false)
+    expect(defaultUCS.auth.username).toBe('')
+    expect(defaultUCS.auth.password).toBe('')
   })
 })
