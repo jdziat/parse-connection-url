@@ -7,7 +7,10 @@
       "path": "/seal-ws",
       "secure": false,
       "type": "http",
-      "protocol": "http"
+      "protocol": "http",
+      "params": {},
+      "fragment": "",
+      "hosts": []
     },
     "auth": {
       "username": "root",
@@ -27,7 +30,10 @@
           "port": 80,
           "prefix": "",
           "protocol": "http",
-          "hostname": "localhost"
+          "hostname": "localhost",
+          "params": {},
+          "fragment": "",
+          "hosts": []
         },
         "auth": {
           "username": "",
@@ -67,7 +73,10 @@
           "port": 80,
           "prefix": "",
           "protocol": "http",
-          "hostname": "localhost"
+          "hostname": "localhost",
+          "params": {},
+          "fragment": "",
+          "hosts": []
         },
         "auth": {
           "username": "",
@@ -101,7 +110,10 @@
           "port": 443,
           "prefix": "",
           "protocol": "https",
-          "hostname": "localhost"
+          "hostname": "localhost",
+          "params": {},
+          "fragment": "",
+          "hosts": []
         },
         "auth": {
           "username": "admin",
@@ -143,7 +155,10 @@
           "port": 443,
           "prefix": "",
           "protocol": "https",
-          "hostname": "localhost"
+          "hostname": "localhost",
+          "params": {},
+          "fragment": "",
+          "hosts": []
         },
         "auth": {
           "username": "admin",
@@ -189,7 +204,10 @@
           "port": 5432,
           "secure": false,
           "type": "sql",
-          "hostname": "localhost"
+          "hostname": "localhost",
+          "params": {},
+          "fragment": "",
+          "hosts": []
         }
       },
       "expectedUrl": "postgres://postgres:root@localhost/generic_database",
@@ -227,7 +245,10 @@
           "type": "http",
           "port": 8983,
           "path": "/solr",
-          "hostname": "solr"
+          "hostname": "solr",
+          "params": {},
+          "fragment": "",
+          "hosts": []
         }
       },
       "expectedUrl": "http://solr:password@solr:8983/solr",
@@ -261,7 +282,10 @@
           "type": "connectionString",
           "port": 5432,
           "path": "/seal",
-          "hostname": "postgres"
+          "hostname": "postgres",
+          "params": {},
+          "fragment": "",
+          "hosts": []
         }
       },
       "expectedUrl": "postgresql://admin:admin@postgres/seal",
@@ -295,7 +319,10 @@
             "type": "connectionString",
             "port": 5432,
             "path": "/seal",
-            "hostname": "localhost"
+            "hostname": "localhost",
+            "params": {},
+            "fragment": "",
+            "hosts": []
           }
         },
         "expectedUrl": "postgresql://localhost/seal",

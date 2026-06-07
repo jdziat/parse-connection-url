@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # to publish a GitHub release and push the release commit/tag
+      issues: write         # to comment on released issues
+      pull-requests: write  # to comment on released PRs
+      id-token: write       # to enable npm OIDC trusted publishing + provenance
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # NOTE: do not set registry-url here — it writes an .npmrc that
+      # conflicts with semantic-release/OIDC authentication.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+
+      # npm >= 11.5.1 is required for OIDC trusted publishing
+      - name: Update npm
+        run: npm install -g npm@latest
+
+      - name: Install dependencies
+        run: npm clean-install
+
+      - name: Verify dependency provenance
+        run: npm audit signatures
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
