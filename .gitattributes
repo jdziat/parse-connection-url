@@ -1,0 +1,14 @@
+# Normalize all text files to LF on checkout and in the repo,
+# so linting behaves identically across platforms (Windows runners
+# default to autocrlf, which breaks the linebreak-style ESLint rule).
+* text=auto eol=lf
+
+# Binary assets
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
